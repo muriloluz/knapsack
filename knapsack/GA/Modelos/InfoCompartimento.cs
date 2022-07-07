@@ -8,9 +8,11 @@ namespace knapsack.GA.Modelos
 {
     public class InfoCompartimento
     {
-        public int Id { get; set; }
-        public int PesoMaximo { get; set; }
+        public InfoCompartimento(int pesoMaximo)
+        {
+            PesoMaximo = pesoMaximo;
+        }
 
-        public int[] PesoItem { get; set; }
+        public int PesoMaximo { get; set; }
     }
 }

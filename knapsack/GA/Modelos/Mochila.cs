@@ -8,13 +8,55 @@ namespace knapsack.GA.Modelos
 {
     public class Mochila
     {
-        public Mochila(int quantidadeItens)
+        public Mochila(int quantidadeCompartimentos, int quantidadeItens)
         {
-            this.InfoCompartimento = new List<InfoCompartimento>();
+            this.Items = new int[quantidadeCompartimentos][];
+
+            for(int i = 0; i < quantidadeCompartimentos; i++)
+            {
+                this.Items[i] = new int[quantidadeItens];
+            }
         }
 
-        public List<InfoCompartimento> InfoCompartimento { get; set; }
+        public int[][] Items { get; private set; }
 
-        public int[][] Items { get; set; }
+        public int Aptidao(InfoItem[] infoItems)
+        {
+            var qntCompartimento = this.Items.Length;
+            var qntItens = this.Items[0].Length;
+            var valorAcumlado = 0;
+
+            for(int i = 0; i < qntCompartimento; i++)
+            {
+                for(int j = 0; j < qntItens; j++)
+                {
+                    if(this.Items[i][j] == 1)
+                    {
+                        valorAcumlado += infoItems[j].Valor;
+                    }
+                }
+            }
+
+            return valorAcumlado;
+        }
+
+        public void ImprimeMochila(InfoItem[] infoItems)
+        {
+            var qntCompartimento = this.Items.Length;
+            var qntItens = this.Items[0].Length;
+            var valorAcumlado = 0;
+            var pesoPorCompartimento = 0;
+
+            for (int i = 0; i < qntCompartimento; i++)
+            {
+                for (int j = 0; j < qntItens; j++)
+                {
+                    if (this.Items[i][j] == 1)
+                    {
+                        valorAcumlado += infoItems[j].Valor;
+                    }
+                }
+            }
+        }
     }
 }

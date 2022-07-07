@@ -9,18 +9,9 @@ namespace knapsack.GA.Helpers
 {
     public class Randomico
     {
-        public char RandomZeroOuUm()
+        public int RandomZeroOuUm()
         {
-            var rand = ProximoInt(2);
-
-            if (rand == 0)
-            {
-                return '0';
-            }
-            else
-            {
-                return '1';
-            }
+            return ProximoInt(2);
         }
 
         public int ProximoInt(int limiteNaoInclusivo)
