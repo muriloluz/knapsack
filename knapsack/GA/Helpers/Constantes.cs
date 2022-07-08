@@ -8,16 +8,16 @@ namespace knapsack.GA.Helpers
 {
     public class Constantes
     {
-        public static int TaxaMutacao = 5;
+        public static int TaxaMutacao = 7;
 
         public static int TaxaRecombinacao = 90;
 
         public static Randomico Randomico = new Randomico();
 
-        public static int SobreviventesElitismo = 1;
+        public static int SobreviventesElitismo = 5;
 
         public static int TamanhoPopulacao = 50;
 
-        public static int Geracoes = 20000;
+        public static int Geracoes = 4000;
     }
 }

@@ -18,7 +18,7 @@ namespace knapsack.GA.Helpers
             var quantidadeInstancias = arquivo[0].Trim();
             var instanciaAtual = 1;
 
-            Console.WriteLine("Quantidade instâncias do arquivo: {1}", instanciaAtual, quantidadeInstancias);
+            //Console.WriteLine("Quantidade instâncias do arquivo: {1}", instanciaAtual, quantidadeInstancias);
 
             var linhaCorrente = 1;
 
@@ -27,8 +27,8 @@ namespace knapsack.GA.Helpers
             int quantidadeRestricoes = int.Parse(informacoes[linhaCorrente]);
             int quantidadeTotalItens =  int.Parse(informacoes[0]);
 
-            Console.WriteLine("Instância: {0} - Quantidade itens: {1}", instanciaAtual, quantidadeTotalItens);
-            Console.WriteLine("Instância: {0} - Restrições: {1}", instanciaAtual, quantidadeRestricoes);
+            //Console.WriteLine("Instância: {0} - Quantidade itens: {1}", instanciaAtual, quantidadeTotalItens);
+            //Console.WriteLine("Instância: {0} - Restrições: {1}", instanciaAtual, quantidadeRestricoes);
 
             linhaCorrente++;
 

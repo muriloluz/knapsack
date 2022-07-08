@@ -35,6 +35,8 @@ namespace knapsack.GA.Modelos
 
         public List<Mochila> Filhos { get; private set; }
 
+        public Mochila MelhorIndividuo { get; private set; }
+
 
         public void Iniciar()
         {
@@ -63,14 +65,16 @@ namespace knapsack.GA.Modelos
 
                 this.SelecionaSobreviventesElitismo(Constantes.SobreviventesElitismo);
 
-                if(g % 200 == 0)
-                {
-                    Console.WriteLine("Geração: " + g);
-                    ImprimeMelhorIndividuo();
-                }
+                //if(g % 10000 == 0)
+                //{
+                //    Console.WriteLine("Geração: " + g);
+                //    ImprimeMelhorIndividuo();
+                //}
             }
 
-            ImprimeMelhorIndividuo();
+            this.MelhorIndividuo = this.Pais.OrderByDescending(x => x.Aptidao(this.InfoItens)).First();
+
+            ///// ImprimeMelhorIndividuo();
         }
 
         private Mochila SelecionaPaisAleatoriamente()
