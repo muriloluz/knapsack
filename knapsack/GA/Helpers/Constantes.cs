@@ -10,10 +10,14 @@ namespace knapsack.GA.Helpers
     {
         public static int TaxaMutacao = 5;
 
-        public static int TaxaRecombinacao = 65;
+        public static int TaxaRecombinacao = 90;
 
         public static Randomico Randomico = new Randomico();
 
-        public static int SobreviventesElitismo = 4;
+        public static int SobreviventesElitismo = 1;
+
+        public static int TamanhoPopulacao = 50;
+
+        public static int Geracoes = 20000;
     }
 }

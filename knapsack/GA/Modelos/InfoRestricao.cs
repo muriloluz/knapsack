@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace knapsack.GA.Modelos
 {
-    public class InfoCompartimento
+    public class InfoRestricao
     {
-        public InfoCompartimento(int pesoMaximo)
+        public InfoRestricao(int pesoMaximo)
         {
             PesoMaximo = pesoMaximo;
         }

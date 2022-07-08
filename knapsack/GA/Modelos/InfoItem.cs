@@ -8,10 +8,10 @@ namespace knapsack.GA.Modelos
 {
     public class InfoItem
     {
-        public InfoItem(int valor, int quantidadeSlots)
+        public InfoItem(int valor, int quantidadeRestricoes)
         {
             Valor = valor;
-            PesoItem = new int[quantidadeSlots];
+            PesoItem = new int[quantidadeRestricoes];
         }
         public int Valor { get; set; }
 

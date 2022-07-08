@@ -10,124 +10,73 @@ namespace knapsack.GA.Helpers
     public static class HelperMochila
     {
         public static Mochila IniciarMochilaAleatoriaValida(
-            int quantidadeCompartimentos,
             int quantidadeItens,
             InfoItem[] infoItens,
-            InfoCompartimento[] infoCompartimentos)
+            InfoRestricao[] infoRestricao)
         {
-            var mochila = IniciarMochilaAleatoria(quantidadeCompartimentos, quantidadeItens);
+            var mochila = IniciarMochilaAleatoria(quantidadeItens, infoRestricao);
 
-            CorrigeQuantidadeItens(mochila, quantidadeCompartimentos, quantidadeItens);
-            CorrigePesoItemNoCompartimento(mochila, quantidadeCompartimentos, quantidadeItens, infoItens, infoCompartimentos);
+            CorrigePesoItemPorRestricaoAleatorio(mochila, quantidadeItens, infoItens, infoRestricao);
 
             return mochila;
         }
 
-        private static Mochila IniciarMochilaAleatoria(
-            int quantidadeCompartimentos,
-            int quantidadeItens)
+        private static Mochila IniciarMochilaAleatoria(int quantidadeItens, InfoRestricao[] infoRestricao)
         {
-            var mochila = new Mochila(quantidadeCompartimentos, quantidadeItens);
+            var mochila = new Mochila(quantidadeItens, infoRestricao.Length);
 
-            var compartimentoAtual = 0;
-            var itemAtualNoCompartimento = 0;
+            var itemAtual = 0;
 
-            while (compartimentoAtual < quantidadeCompartimentos)
+            while (itemAtual < quantidadeItens)
             {
-                while(itemAtualNoCompartimento < quantidadeItens)
-                {
-                    mochila.Items[compartimentoAtual][itemAtualNoCompartimento] = Constantes.Randomico.RandomZeroOuUm();
-                    itemAtualNoCompartimento++;
-                }
-                compartimentoAtual++;
-                itemAtualNoCompartimento = 0;
+                mochila.Items[itemAtual] = Constantes.Randomico.RandomZeroOuUm();
+                itemAtual++;
             }
 
             return mochila;
         }
 
-        private static void CorrigeQuantidadeItens(
+        public static void CorrigePesoItemPorRestricaoAleatorio(
             Mochila mochila,
-            int quantidadeCompartimentos,
-            int quantidadeItens)
-        {
-            var compartimentoAtual = 0;
-            var itemAtualNoCompartimento = 0;
-
-            while(itemAtualNoCompartimento < quantidadeItens)
-            {
-                var auxItensPresentes = new List<int>();
-
-                while(compartimentoAtual < quantidadeCompartimentos)
-                {
-                    if(mochila.Items[compartimentoAtual][itemAtualNoCompartimento] == 1)
-                    {
-                        auxItensPresentes.Add(compartimentoAtual);
-                    }
-
-                    compartimentoAtual++;
-                }
-
-                //// O mesmo item não pode estar presente em mais de um compartimento, 
-                //// sorteando o compartimento que será mantido  com 1 e os demais com 0.
-                if(auxItensPresentes.Count > 1)
-                {
-                    var posicaoQueSeraMantida = Constantes.Randomico.ProximoInt(auxItensPresentes.Count);
-
-                    auxItensPresentes.RemoveAt(posicaoQueSeraMantida);
-
-                    foreach(var p in auxItensPresentes)
-                    {
-                        mochila.Items[p][itemAtualNoCompartimento] = 0;
-                    }
-                }
-
-                compartimentoAtual = 0;
-                itemAtualNoCompartimento++;
-            }
-        }
-
-        private static void CorrigePesoItemNoCompartimento(
-            Mochila mochila,
-            int quantidadeCompartimentos,
             int quantidadeItens,
             InfoItem[] infoItem,
-            InfoCompartimento[] infoCompartimento)
+            InfoRestricao[] infoRestricao)
         {
-            var compartimentoAtual = 0;
-            var itemAtualNoCompartimento = 0;
+            var valido = false;
 
-            while (compartimentoAtual < quantidadeCompartimentos)
+            while (!valido)
             {
-                var auxItensPresentes = new List<int>();
-                var totalPesoCompartimento = 0;
+                //// Calcula Restricoes
+                var itensPresentes = mochila.CalcularRestricoesAtuais(infoItem);
 
-                while (itemAtualNoCompartimento < quantidadeItens)
+                //// Checa se são validas as dimensões
+                
+                for(int i = 0; i < infoRestricao.Length; i++)
                 {
-                    if (mochila.Items[compartimentoAtual][itemAtualNoCompartimento] == 1)
+                    if( mochila.PesoRestricoesAtuais[i] <= infoRestricao[i].PesoMaximo )
                     {
-                        auxItensPresentes.Add(itemAtualNoCompartimento);
-                        totalPesoCompartimento += infoItem[itemAtualNoCompartimento].PesoItem[compartimentoAtual];
+                        valido = true;
                     }
-
-                    itemAtualNoCompartimento++;
+                    else
+                    {
+                        /// Basta uma dimensão inválida
+                        valido = false;
+                        break;
+                    }
                 }
 
-                //// Caso o peso tenha sido ultrapassado
-                //// Sortear, dentre os itens existentes alguma para ser removido.
-                if (totalPesoCompartimento > infoCompartimento[compartimentoAtual].PesoMaximo)
+                if (valido)
                 {
-                    var posicaoItemRemovido = Constantes.Randomico.ProximoInt(auxItensPresentes.Count);
-                    var itemRemovido = auxItensPresentes.ElementAt(posicaoItemRemovido);
-                    mochila.Items[compartimentoAtual][itemRemovido] = 0;
+                    break;
                 }
                 else
                 {
-                    compartimentoAtual++;
-                }
+                    var indiceItemRemocao = Constantes.Randomico.ProximoInt(itensPresentes.Count);
+                    var indiceParaAlteracao = itensPresentes.ElementAt(indiceItemRemocao);
 
-                itemAtualNoCompartimento = 0;
-            }
+                    mochila.Items[indiceParaAlteracao] = 0;
+                }
+            }     
         }
     }
 }

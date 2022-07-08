@@ -11,7 +11,7 @@ namespace knapsack.GA.Helpers
     {        
         public List<EstrategiaAG> LerProblema()
         {
-            var arquivo = File.ReadAllLines(@"C:\Projetos\ce\knapsack\knapsack\GA\Data\mknapcb1.txt");
+            var arquivo = File.ReadAllLines(@"G:\Projetos\ufg\EV\knapsack\knapsack\GA\Data\mknapcb1.txt");
 
             var retorno = new List<EstrategiaAG>();
 
@@ -24,11 +24,11 @@ namespace knapsack.GA.Helpers
 
             var informacoes = arquivo[linhaCorrente].Trim().Split();
 
-            int quantidadeCompartimentos = int.Parse(informacoes[linhaCorrente]);
+            int quantidadeRestricoes = int.Parse(informacoes[linhaCorrente]);
             int quantidadeTotalItens =  int.Parse(informacoes[0]);
 
             Console.WriteLine("Instância: {0} - Quantidade itens: {1}", instanciaAtual, quantidadeTotalItens);
-            Console.WriteLine("Instância: {0} - Compartimentos: {1}", instanciaAtual, quantidadeCompartimentos);
+            Console.WriteLine("Instância: {0} - Restrições: {1}", instanciaAtual, quantidadeRestricoes);
 
             linhaCorrente++;
 
@@ -41,16 +41,16 @@ namespace knapsack.GA.Helpers
 
                 foreach(var valor in itensLinha)
                 {
-                    infoItens[itemAtualColetado] = new InfoItem(int.Parse(valor), quantidadeCompartimentos);
+                    infoItens[itemAtualColetado] = new InfoItem(int.Parse(valor), quantidadeRestricoes);
                     itemAtualColetado++;
                 }     
                 linhaCorrente++;
             }
 
-            //// Inicia leitura dos pesos em cada compartimento
-            var compartimentoAtual = 0;
+            //// Inicia leitura dos pesos em cada restrição
+            var restricaoAtual = 0;
 
-            while(compartimentoAtual < quantidadeCompartimentos)
+            while(restricaoAtual < quantidadeRestricoes)
             {
                 var itemAtual = 0;
                 while (itemAtual < quantidadeTotalItens)
@@ -59,35 +59,35 @@ namespace knapsack.GA.Helpers
 
                     foreach (var valor in itensLinha)
                     {
-                        infoItens.ElementAt(itemAtual).PesoItem[compartimentoAtual] = int.Parse(valor);
+                        infoItens.ElementAt(itemAtual).PesoItem[restricaoAtual] = int.Parse(valor);
                         itemAtual++;
 
                     }
                     linhaCorrente++;
                 }
 
-                compartimentoAtual++;
+                restricaoAtual++;
             }
 
             //// Iniciar leitura da capacidade dos slots
-            var infoCompartimentos = new InfoCompartimento[quantidadeCompartimentos];
+            var infoRestricoes = new InfoRestricao[quantidadeRestricoes];
 
-            var pesoCompartimentos = arquivo[linhaCorrente].Trim().Split().ToList();
+            var pesoRestricoes = arquivo[linhaCorrente].Trim().Split().ToList();
 
-            if(pesoCompartimentos.Count() != quantidadeCompartimentos)
+            if(pesoRestricoes.Count() != quantidadeRestricoes)
             {
                 throw new Exception("O arquivo está no formato incorreto.");
             }
 
-            compartimentoAtual = 0;
+            restricaoAtual = 0;
 
-            while(compartimentoAtual < quantidadeCompartimentos)
+            while(restricaoAtual < quantidadeRestricoes)
             {
-                infoCompartimentos[compartimentoAtual] = new InfoCompartimento(int.Parse(pesoCompartimentos.ElementAt(compartimentoAtual)));
-                compartimentoAtual++;
+                infoRestricoes[restricaoAtual] = new InfoRestricao(int.Parse(pesoRestricoes.ElementAt(restricaoAtual)));
+                restricaoAtual++;
             }
 
-            retorno.Add(new EstrategiaAG(instanciaAtual, infoItens, infoCompartimentos));
+            retorno.Add(new EstrategiaAG(instanciaAtual, infoItens, infoRestricoes));
 
             return retorno;
         }

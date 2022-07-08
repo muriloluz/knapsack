@@ -8,55 +8,96 @@ namespace knapsack.GA.Modelos
 {
     public class Mochila
     {
-        public Mochila(int quantidadeCompartimentos, int quantidadeItens)
+        public Mochila(int quantidadeItens, int quantidadeRestricoes)
         {
-            this.Items = new int[quantidadeCompartimentos][];
-
-            for(int i = 0; i < quantidadeCompartimentos; i++)
-            {
-                this.Items[i] = new int[quantidadeItens];
-            }
+            this.Items = new int[quantidadeItens];
+            this.PesoRestricoesAtuais = new int[quantidadeRestricoes];
         }
 
-        public int[][] Items { get; private set; }
+        public int[] Items { get; private set; }
 
-        public int Aptidao(InfoItem[] infoItems)
+        public int[] PesoRestricoesAtuais { get; private set; }
+
+        public void ImprimeMochila(InfoItem[] infoItem)
         {
-            var qntCompartimento = this.Items.Length;
-            var qntItens = this.Items[0].Length;
-            var valorAcumlado = 0;
+            var qntRestricoes = this.Items.Length;
 
-            for(int i = 0; i < qntCompartimento; i++)
+            var qntItens = this.Items.Length;
+
+            Console.WriteLine();
+
+            Console.WriteLine("Mochila: ");
+
+            for (int i = 0; i < qntItens; i++)
             {
-                for(int j = 0; j < qntItens; j++)
+                if (i % 10 == 0)
                 {
-                    if(this.Items[i][j] == 1)
+                    Console.WriteLine();
+                }
+
+                Console.Write(this.Items[i] + "  ");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Restrições Atuais: ");
+
+            for(int i = 0; i < this.PesoRestricoesAtuais.Length; i++)
+            {
+                Console.Write(this.PesoRestricoesAtuais[i] + "   ");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Quantidade de Itens: " + this.Items.Where(x=>x == 1).Count());
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Valor da mochila: " + this.Aptidao(infoItem));
+            Console.WriteLine();
+            Console.WriteLine();
+        }
+
+        public List<int> CalcularRestricoesAtuais(InfoItem[] infoItem)
+        {
+            List<int> indiceDosItensPresentes = new List<int>();
+
+            //// Zera calculo inicial
+            for (int p = 0; p < PesoRestricoesAtuais.Length; p++)
+            {
+                this.PesoRestricoesAtuais[p] = 0;
+            }
+
+            //// Primeiro Calculo das restrições com os itens atuais.
+            for (int i = 0; i < this.Items.Length; i++)
+            {
+                if (this.Items[i] == 1)
+                {
+                    indiceDosItensPresentes.Add(i);
+
+                    for (int j = 0; j < this.PesoRestricoesAtuais.Length; j++)
                     {
-                        valorAcumlado += infoItems[j].Valor;
+                        PesoRestricoesAtuais[j] += infoItem[i].PesoItem[j];
                     }
+                }
+
+            }
+
+            return indiceDosItensPresentes;
+        }
+
+        public int Aptidao(InfoItem[] infoItem)
+        {
+            var valorAcumulado = 0;
+
+            for (int i = 0; i < this.Items.Length; i++)
+            {
+                if (this.Items[i] == 1)
+                {
+                    valorAcumulado += infoItem[i].Valor;
                 }
             }
 
-            return valorAcumlado;
-        }
-
-        public void ImprimeMochila(InfoItem[] infoItems)
-        {
-            var qntCompartimento = this.Items.Length;
-            var qntItens = this.Items[0].Length;
-            var valorAcumlado = 0;
-            var pesoPorCompartimento = 0;
-
-            for (int i = 0; i < qntCompartimento; i++)
-            {
-                for (int j = 0; j < qntItens; j++)
-                {
-                    if (this.Items[i][j] == 1)
-                    {
-                        valorAcumlado += infoItems[j].Valor;
-                    }
-                }
-            }
+            return valorAcumulado;
         }
     }
 }

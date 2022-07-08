@@ -4,7 +4,8 @@
 using knapsack.GA.Helpers;
 
 Console.WriteLine("Taxa de Mutação: {0}" , Constantes.TaxaMutacao);
+Console.WriteLine("Taxa de Recombinação: {0}", Constantes.TaxaRecombinacao);
 
 var estrategiaAG = new Parser().LerProblema();
 
-estrategiaAG[0].IniciaPopulacao();
+estrategiaAG[0].Iniciar();
