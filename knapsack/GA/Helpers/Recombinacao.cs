@@ -9,7 +9,11 @@ namespace knapsack.GA.Helpers
 {
     public static class Recombinacao
     {
-        public static List<Mochila> UmPonto(Mochila pai, Mochila mae, int taxaRecombinacao, InfoItem[] infoItem)
+        public static List<Mochila> UmPonto(
+            Mochila pai, 
+            Mochila mae, 
+            int taxaRecombinacao, 
+            InfoItem[] infoItem)
         {
             var random = Constantes.Randomico.ProximoInt(101);
 
@@ -51,13 +55,16 @@ namespace knapsack.GA.Helpers
             return retorno;
         }
 
-        public static List<Mochila> DoisPontos(Mochila pai, Mochila mae, int taxaRecombinacao, InfoItem[] infoItem)
+        public static List<Mochila> DoisPontos(
+            Mochila pai, 
+            Mochila mae, 
+            int taxaRecombinacao, 
+            InfoItem[] infoItem)
         {
             var random = Constantes.Randomico.ProximoInt(101);
 
             Mochila filho1;
             Mochila filho2;
-
 
             if (random <= taxaRecombinacao)
             {
@@ -86,6 +93,64 @@ namespace knapsack.GA.Helpers
                 {
                     filho1.Items[w] = pai.Items[w];
                     filho2.Items[w] = mae.Items[w];
+                }
+            }
+            else
+            {
+                filho1 = Clona(pai, infoItem);
+                filho2 = Clona(mae, infoItem);
+            }
+
+            var retorno = new List<Mochila>();
+
+            retorno.Add(filho1);
+            retorno.Add(filho2);
+
+            return retorno;
+        }
+
+        public static List<Mochila> Uniforme(
+            Mochila pai,
+            Mochila mae,
+            int taxaRecombinacao,
+            InfoItem[] infoItem
+            )
+        {
+            var random = Constantes.Randomico.ProximoInt(101);
+
+            Mochila filho1;
+            Mochila filho2;
+
+            if (random <= taxaRecombinacao)
+            {
+
+                filho1 = new Mochila(pai.Items.Length, pai.PesoRestricoesAtuais.Length);
+                filho2 = new Mochila(pai.Items.Length, pai.PesoRestricoesAtuais.Length);
+
+                for (int i = 0; i < pai.Items.Length; i++)
+                {
+                    var paiOuMae = Constantes.Randomico.RandomZeroOuUm();
+
+                    if(paiOuMae == 0)
+                    {
+                        filho1.Items[i] = pai.Items[i];
+                    }
+                    else
+                    {
+                        filho1.Items[i] = mae.Items[i];
+                    }
+
+                    paiOuMae = Constantes.Randomico.RandomZeroOuUm();
+
+
+                    if (paiOuMae == 0)
+                    {
+                        filho2.Items[i] = pai.Items[i];
+                    }
+                    else
+                    {
+                        filho2.Items[i] = mae.Items[i];
+                    }
                 }
             }
             else

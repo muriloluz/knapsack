@@ -40,14 +40,17 @@ namespace knapsack.GA.Modelos
 
         public void Iniciar()
         {
+            this.IniciaPopulacao();
+
             for (int g = 0; g < Constantes.Geracoes; g++)
             {
-                this.IniciaPopulacao();
-
                 for (int i = 0; i < Constantes.TamanhoPopulacao / 2; i++)
                 {
-                    var pai = this.SelecionaPaisAleatoriamente();
-                    var mae = this.SelecionaPaisAleatoriamente();
+                    //var pai = this.SelecionaIndividuoTorneio(Constantes.ParticipantesTorneio);
+                    //var mae = this.SelecionaIndividuoTorneio(Constantes.ParticipantesTorneio);
+
+                    var pai = this.SelecionaProporcionalAptidao();
+                    var mae = this.SelecionaProporcionalAptidao();
 
                     /// Crossover
                     var filhos = Recombinacao.DoisPontos(pai, mae, Constantes.TaxaRecombinacao, this.InfoItens);
@@ -63,18 +66,18 @@ namespace knapsack.GA.Modelos
                     this.Filhos.AddRange(filhos);
                 }
 
-                this.SelecionaSobreviventesElitismo(Constantes.SobreviventesElitismo);
+                //// this.SelecionaSobreviventesElitismo(Constantes.SobreviventesElitismo);
 
-                //if(g % 10000 == 0)
-                //{
-                //    Console.WriteLine("Geração: " + g);
-                //    ImprimeMelhorIndividuo();
-                //}
+                this.SelecionaMelhoresFilhos(Constantes.QuantidadeMelhoresFilhosPorGeracao);
+
+                if (g % Constantes.ImprimirACada == 0 && Constantes.ImprimirIndividuo)
+                {
+                    Console.WriteLine("Geração: " + g);
+                    ImprimeMelhorIndividuo();
+                }
             }
 
             this.MelhorIndividuo = this.Pais.OrderByDescending(x => x.Aptidao(this.InfoItens)).First();
-
-            ///// ImprimeMelhorIndividuo();
         }
 
         private Mochila SelecionaPaisAleatoriamente()
@@ -82,6 +85,33 @@ namespace knapsack.GA.Modelos
             var randomico = Constantes.Randomico.ProximoInt(Constantes.TamanhoPopulacao);
 
             return this.Pais.ElementAt(randomico);
+        }
+
+        private Mochila SelecionaIndividuoTorneio(int numeroParticipantes)
+        {
+            var numeroSorteados = new List<int>();
+            var listaCandidatos = new List<Mochila>();
+
+            while (numeroSorteados.Count < numeroParticipantes)
+            {
+                var sorteado = Constantes.Randomico.ProximoInt(Constantes.TamanhoPopulacao);
+
+                if (numeroSorteados.Contains(sorteado))
+                {
+                    continue;
+                }
+                else
+                {
+                    numeroSorteados.Add(sorteado);
+                }
+            }
+
+            foreach (var s in numeroSorteados)
+            {
+                listaCandidatos.Add(this.Pais.ElementAt(s));
+            }
+
+            return listaCandidatos.OrderByDescending(x => x.Aptidao(this.InfoItens)).Take(1).First();
         }
 
         private void SelecionaSobreviventesElitismo(int n)
@@ -114,6 +144,17 @@ namespace knapsack.GA.Modelos
             this.Filhos.Clear();
         }
 
+        private void SelecionaMelhoresFilhos(int n)
+        {
+            var listaMelhoresPais = this.Pais.OrderByDescending(x => x.Aptidao(this.InfoItens)).Take(Constantes.TamanhoPopulacao - n).ToList();
+            var listaMelhoresFilhos = this.Filhos.OrderByDescending(x => x.Aptidao(this.InfoItens)).Take(n).ToList();
+
+            listaMelhoresPais.AddRange(listaMelhoresFilhos);
+
+            this.Pais = listaMelhoresPais.ToList();
+            this.Filhos.Clear();
+        }
+
         private Mochila SelecionaProporcionalAptidao()
         {
             var aptidaoTotal = this.SomaTotalAptidaoPais();
@@ -141,6 +182,7 @@ namespace knapsack.GA.Modelos
 
         private void IniciaPopulacao()
         {
+            this.Pais.Clear();
             for (int i = 0; i < Constantes.TamanhoPopulacao; i++)
             {
                 var individuo = HelperMochila.IniciarMochilaAleatoriaValida(this.TotalItens, this.InfoItens, this.InfoRestricoes);

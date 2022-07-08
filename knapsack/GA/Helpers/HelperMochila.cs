@@ -76,7 +76,34 @@ namespace knapsack.GA.Helpers
 
                     mochila.Items[indiceParaAlteracao] = 0;
                 }
-            }     
+            }
+
+            /// Tenta adicionar o máximo de itens disponíveis
+            mochila.CalcularRestricoesAtuais(infoItem);
+
+            for(int i = 0; i < infoItem.Length; i++)
+            {
+                /// Se o item for ausente, verificar se ele cabe nas restrições
+                if (mochila.Items[i] == 0)
+                {
+                    var podeSerInserido = true;
+                    for(int j = 0; j < infoRestricao.Length; j++)
+                    {
+                        if(infoItem[i].PesoItem[j] + mochila.PesoRestricoesAtuais[j] > infoRestricao[j].PesoMaximo)
+                        {
+                            podeSerInserido = false;
+                        }
+                    }
+
+                    if (podeSerInserido)
+                    {
+                        mochila.Items[i] = 1;
+                        mochila.CalcularRestricoesAtuais(infoItem);
+                    }
+                    
+                }
+            }
+
         }
     }
 }
