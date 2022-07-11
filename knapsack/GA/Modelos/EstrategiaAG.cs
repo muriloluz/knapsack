@@ -21,6 +21,13 @@ namespace knapsack.GA.Modelos
             this.TotalItens = infoItens.Length;
         }
 
+        public void Limpar()
+        {
+            this.Pais = new List<Mochila>();
+            this.Filhos = new List<Mochila>();
+            this.MelhorIndividuo = null;
+        }
+
         public int Instancia { get; private set; }
 
         public int TotalRestricoes { get; private set; }
@@ -40,20 +47,21 @@ namespace knapsack.GA.Modelos
 
         public void Iniciar()
         {
+            this.Limpar();
             this.IniciaPopulacao();
 
             for (int g = 0; g < Constantes.Geracoes; g++)
             {
                 for (int i = 0; i < Constantes.TamanhoPopulacao / 2; i++)
                 {
-                    //var pai = this.SelecionaIndividuoTorneio(Constantes.ParticipantesTorneio);
-                    //var mae = this.SelecionaIndividuoTorneio(Constantes.ParticipantesTorneio);
+                    var pai = this.SelecionaIndividuoTorneio(Constantes.ParticipantesTorneio);
+                    var mae = this.SelecionaIndividuoTorneio(Constantes.ParticipantesTorneio);
 
-                    var pai = this.SelecionaProporcionalAptidao();
-                    var mae = this.SelecionaProporcionalAptidao();
+                    //var pai = this.SelecionaProporcionalAptidao();
+                    //var mae = this.SelecionaProporcionalAptidao();
 
                     /// Crossover
-                    var filhos = Recombinacao.DoisPontos(pai, mae, Constantes.TaxaRecombinacao, this.InfoItens);
+                    var filhos = Recombinacao.Uniforme(pai, mae, Constantes.TaxaRecombinacao, this.InfoItens);
 
                     /// Mutacao
                     foreach (var f in filhos)
@@ -182,7 +190,6 @@ namespace knapsack.GA.Modelos
 
         private void IniciaPopulacao()
         {
-            this.Pais.Clear();
             for (int i = 0; i < Constantes.TamanhoPopulacao; i++)
             {
                 var individuo = HelperMochila.IniciarMochilaAleatoriaValida(this.TotalItens, this.InfoItens, this.InfoRestricoes);

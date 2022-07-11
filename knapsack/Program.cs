@@ -6,26 +6,26 @@ using knapsack.GA.Modelos;
 using System.Threading.Tasks;
 
 
-var listaResultado = new List<int>();
+var listaResultado = new List<Mochila>();
 
 Console.WriteLine("INICIO");
 Console.WriteLine();
 
-for (int j = 0; j < Constantes.QuantidadeExecucoes; j++) {
+var estrategiaAG = new Parser().LerProblema();
 
-    Parallel.For(0, Constantes.Paralelismo, (i) =>
-    {
+for (int j = 0; j < Constantes.QuantidadeExecucoes; j++)
+{
+
     //Console.WriteLine("Taxa de Mutação: {0}", Constantes.TaxaMutacao);
     //Console.WriteLine("Taxa de Recombinação: {0}", Constantes.TaxaRecombinacao);
-        var estrategiaAG = new Parser().LerProblema();
-        estrategiaAG[0].Iniciar();
-        listaResultado.Add(estrategiaAG[0].MelhorIndividuo.Aptidao(estrategiaAG[0].InfoItens));
-    });
+
+    estrategiaAG[0].Iniciar();
+    listaResultado.Add(estrategiaAG[0].MelhorIndividuo);
 
 
     foreach (var resultado in listaResultado)
     {
-        Console.WriteLine("Melhor aptidão: " + resultado + "  ");
+        resultado.ImprimeMochila(estrategiaAG[0].InfoItens);
     }
 
     listaResultado.Clear();
