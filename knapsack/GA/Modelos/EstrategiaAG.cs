@@ -44,11 +44,25 @@ namespace knapsack.GA.Modelos
 
         public Mochila MelhorIndividuo { get; private set; }
 
-
         public void Iniciar()
         {
             this.Limpar();
             this.IniciaPopulacao();
+
+            //// Calcula o custo-beneficio de cada item 
+
+            //var lista = new List<InfoItem>();
+            //for(int i = 0; i < TotalItens; i++)
+            //{
+            //    var item = this.InfoItens[i];
+            //    item.CalculaPrioridade();
+            //    lista.Add(item);
+            //}
+
+            //this.InfoItens = lista.OrderByDescending(x=>x.Prioridade).ToArray();
+
+            //lista.Clear();
+            
 
             for (int g = 0; g < Constantes.Geracoes; g++)
             {
@@ -69,14 +83,14 @@ namespace knapsack.GA.Modelos
                         Mutacao.Muta(f, Constantes.TaxaMutacao);
                     }
 
-                    filhos.ForEach(x => HelperMochila.CorrigePesoItemPorRestricaoAleatorio(x, this.TotalItens, this.InfoItens, this.InfoRestricoes));
+                    filhos.ForEach(x => HelperMochila.ReparaPesoItemPorRestricaoAleatorio(x, this.TotalItens, this.InfoItens, this.InfoRestricoes));
 
                     this.Filhos.AddRange(filhos);
                 }
 
-                //// this.SelecionaSobreviventesElitismo(Constantes.SobreviventesElitismo);
+                 this.SelecionaSobreviventesElitismo(Constantes.SobreviventesElitismo);
 
-                this.SelecionaMelhoresFilhos(Constantes.QuantidadeMelhoresFilhosPorGeracao);
+                ///// this.SelecionaMelhoresFilhos(Constantes.QuantidadeMelhoresFilhosPorGeracao);
 
                 if (g % Constantes.ImprimirACada == 0 && Constantes.ImprimirIndividuo)
                 {

@@ -16,5 +16,18 @@ namespace knapsack.GA.Modelos
         public int Valor { get; set; }
 
         public int[] PesoItem { get; set; }
+
+        public double Prioridade { get; set; }
+
+        public void CalculaPrioridade()
+        {
+            var total = 0.0;
+            for (int i = 0; i < PesoItem.Length; i++)
+            {
+               total += (Valor / PesoItem[i]);
+            }
+
+            this.Prioridade = total;
+        }
     }
 }

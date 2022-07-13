@@ -14,7 +14,7 @@ namespace knapsack.GA.Helpers
 
         public static Randomico Randomico = new Randomico();
 
-        public static int SobreviventesElitismo = 5;
+        public static int SobreviventesElitismo = 10;
 
         public static int QuantidadeMelhoresFilhosPorGeracao = 10;
 
@@ -23,11 +23,11 @@ namespace knapsack.GA.Helpers
         /// <summary>
         ///  Primeiro otimo foi com 10 000
         /// </summary>
-        public static int Geracoes = 5000;
+        public static int Geracoes = 10000;
 
-        public static int QuantidadeExecucoes = 1;
+        public static int QuantidadeExecucoes = 100;
 
-        public static bool ImprimirIndividuo = true;
+        public static bool ImprimirIndividuo = false;
 
         public static int ImprimirACada = 500;
 

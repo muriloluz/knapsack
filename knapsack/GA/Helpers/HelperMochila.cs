@@ -16,7 +16,7 @@ namespace knapsack.GA.Helpers
         {
             var mochila = IniciarMochilaAleatoria(quantidadeItens, infoRestricao);
 
-            CorrigePesoItemPorRestricaoAleatorio(mochila, quantidadeItens, infoItens, infoRestricao);
+            ReparaPesoItemPorRestricaoAleatorio(mochila, quantidadeItens, infoItens, infoRestricao);
 
             return mochila;
         }
@@ -36,7 +36,7 @@ namespace knapsack.GA.Helpers
             return mochila;
         }
 
-        public static void CorrigePesoItemPorRestricaoAleatorio(
+        public static void ReparaPesoItemPorRestricaoAleatorio(
             Mochila mochila,
             int quantidadeItens,
             InfoItem[] infoItem,
@@ -81,15 +81,43 @@ namespace knapsack.GA.Helpers
             /// Tenta adicionar o máximo de itens disponíveis
             mochila.CalcularRestricoesAtuais(infoItem);
 
-            for(int i = 0; i < infoItem.Length; i++)
+            /// Sorteia Ordem Para Inclusao => Futuramente mudar para considerar custo/beneficio do item.
+
+            var prioridadeItens = new int[quantidadeItens];
+
+            //// Inicia na ordem de leitura
+            for(int i = 0; i < quantidadeItens; i++)
+            {
+                prioridadeItens[i] = i;
+            }
+
+            ///// Embaralha os itens n vezes
+
+            int n = quantidadeItens - 1;
+            while (n > 1)
+            {
+                n--;
+                int posicaoParaEmbaralhar = Constantes.Randomico.ProximoInt(quantidadeItens);
+
+                int k = prioridadeItens[n];
+                prioridadeItens[n] = prioridadeItens[posicaoParaEmbaralhar];
+                prioridadeItens[posicaoParaEmbaralhar] = k;
+            }
+
+
+            for (int w = 0; w < infoItem.Length; w++)
             {
                 /// Se o item for ausente, verificar se ele cabe nas restrições
-                if (mochila.Items[i] == 0)
+
+
+                var itemASerInserido = prioridadeItens[w];
+
+                if (mochila.Items[itemASerInserido] == 0)
                 {
                     var podeSerInserido = true;
                     for(int j = 0; j < infoRestricao.Length; j++)
                     {
-                        if(infoItem[i].PesoItem[j] + mochila.PesoRestricoesAtuais[j] > infoRestricao[j].PesoMaximo)
+                        if(infoItem[itemASerInserido].PesoItem[j] + mochila.PesoRestricoesAtuais[j] > infoRestricao[j].PesoMaximo)
                         {
                             podeSerInserido = false;
                         }
@@ -97,7 +125,7 @@ namespace knapsack.GA.Helpers
 
                     if (podeSerInserido)
                     {
-                        mochila.Items[i] = 1;
+                        mochila.Items[itemASerInserido] = 1;
                         mochila.CalcularRestricoesAtuais(infoItem);
                     }
                     
