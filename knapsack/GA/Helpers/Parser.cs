@@ -11,7 +11,7 @@ namespace knapsack.GA.Helpers
     {        
         public List<EstrategiaAG> LerProblema()
         {
-            var arquivo = File.ReadAllLines(@"C:\Projetos\ce\knapsack\knapsack\GA\Data\mknapcb1.txt");
+            var arquivo = File.ReadAllLines(@"C:\Projetos\ce\knapsack\knapsack\GA\Data\mknapcb9.txt");
 
             //var arquivo = File.ReadAllLines(@"G:\Projetos\ufg\EV\knapsack\knapsack\GA\Data\mknapcb1.txt"); 
 
@@ -76,6 +76,12 @@ namespace knapsack.GA.Helpers
                 var infoRestricoes = new InfoRestricao[quantidadeRestricoes];
 
                 var pesoRestricoes = arquivo[linhaCorrente].Trim().Split().ToList();
+
+                while(pesoRestricoes.Count() != quantidadeRestricoes)
+                {
+                    linhaCorrente++;
+                    pesoRestricoes.AddRange(arquivo[linhaCorrente].Trim().Split().ToList());
+                }
 
                 if (pesoRestricoes.Count() != quantidadeRestricoes)
                 {
