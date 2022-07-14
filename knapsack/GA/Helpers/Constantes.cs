@@ -23,11 +23,11 @@ namespace knapsack.GA.Helpers
         /// <summary>
         ///  Primeiro otimo foi com 10 000
         /// </summary>
-        public static int Geracoes = 5000;
+        public static int Geracoes = 500;
 
-        public static int QuantidadeExecucoes = 1;
+        public static int QuantidadeExecucoes = 10;
 
-        public static bool ImprimirIndividuo = true;
+        public static bool ImprimirIndividuo = false;
 
         public static int ImprimirACada = 500;
 
