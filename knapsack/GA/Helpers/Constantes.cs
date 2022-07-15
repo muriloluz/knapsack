@@ -18,14 +18,16 @@ namespace knapsack.GA.Helpers
 
         public static int QuantidadeMelhoresFilhosPorGeracao = 10;
 
+        public static int QuantidadeFilhosPorGeracao = 50;
+
         public static int TamanhoPopulacao = 50;
 
         /// <summary>
         ///  Primeiro otimo foi com 10 000
         /// </summary>
-        public static int Geracoes = 10000;
+        public static int Geracoes = 100;
 
-        public static int QuantidadeExecucoes = 100;
+        public static int QuantidadeExecucoes = 10;
 
         public static bool ImprimirIndividuo = false;
 

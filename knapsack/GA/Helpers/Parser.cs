@@ -9,15 +9,19 @@ namespace knapsack.GA.Helpers
 {
     public class Parser
     {        
-        public List<EstrategiaAG> LerProblema()
+        public Problema LerProblema()
         {
-            var arquivo = File.ReadAllLines(@"C:\Projetos\ce\knapsack\knapsack\GA\Data\mknapcb9.txt");
+            var arquivo = File.ReadAllLines(@"C:\Projetos\ce\knapsack\knapsack\GA\Data\mknapcb1.txt");
 
             //var arquivo = File.ReadAllLines(@"G:\Projetos\ufg\EV\knapsack\knapsack\GA\Data\mknapcb1.txt"); 
 
+            var problema = new Problema();
             var retorno = new List<EstrategiaAG>();
 
             var quantidadeInstancias = int.Parse(arquivo[0].Trim());
+
+            problema.QuantidadeInstancias = quantidadeInstancias;
+
             var instanciaAtual = 1;
             var linhaCorrente = 0;
             while (instanciaAtual <= quantidadeInstancias)
@@ -101,7 +105,8 @@ namespace knapsack.GA.Helpers
                 instanciaAtual++;
             }
 
-            return retorno;
+            problema.estrategiaAGs = retorno;
+            return problema;
         }
     }
 }
