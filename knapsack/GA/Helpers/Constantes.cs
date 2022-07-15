@@ -29,7 +29,7 @@ namespace knapsack.GA.Helpers
 
         public static bool ImprimirIndividuo = false;
 
-        public static int ImprimirACada = 500;
+        public static int ImprimirACada = 1000;
 
         public static int ParticipantesTorneio = 2;
     }
