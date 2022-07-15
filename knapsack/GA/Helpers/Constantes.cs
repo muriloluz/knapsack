@@ -18,6 +18,9 @@ namespace knapsack.GA.Helpers
 
         public static int QuantidadeMelhoresFilhosPorGeracao = 10;
 
+        /// <summary>
+        /// Tem que ser multiplo de 2
+        /// </summary>
         public static int QuantidadeFilhosPorGeracao = 50;
 
         public static int TamanhoPopulacao = 50;

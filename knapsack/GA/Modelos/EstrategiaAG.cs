@@ -66,7 +66,7 @@ namespace knapsack.GA.Modelos
 
             for (int g = 0; g < Constantes.Geracoes; g++)
             {
-                for (int i = 0; i < Constantes.QuantidadeFilhosPorGeracao; i++)
+                for (int i = 0; i < Constantes.QuantidadeFilhosPorGeracao / 2; i++)
                 {
                     var pai = this.SelecionaIndividuoTorneio(Constantes.ParticipantesTorneio);
                     var mae = this.SelecionaIndividuoTorneio(Constantes.ParticipantesTorneio);
