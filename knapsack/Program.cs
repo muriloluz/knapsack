@@ -21,6 +21,11 @@ while (w < problema.QuantidadeInstancias)
 
     listaResultado.Clear();
 
+    if (Constantes.ApenasPrimeiraInstancia && w > 0)
+    {
+        break;
+    }
+
     InfoItem[] infoItens = null;
 
     Console.WriteLine("INSTANCIA: " + w);
