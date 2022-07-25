@@ -88,9 +88,9 @@ namespace knapsack.GA.Modelos
                     this.Filhos.AddRange(filhos);
                 }
 
-                /// this.SelecionaSobreviventesElitismo(Constantes.SobreviventesElitismo);
+                this.SelecionaSobreviventesElitismo(Constantes.SobreviventesElitismo);
 
-                this.SelecionaMelhoresFilhos(Constantes.QuantidadeMelhoresFilhosPorGeracao);
+                /// this.SelecionaMelhoresFilhos(Constantes.QuantidadeMelhoresFilhosPorGeracao);
 
                 if (g % Constantes.ImprimirACada == 0 && Constantes.ImprimirIndividuo)
                 {

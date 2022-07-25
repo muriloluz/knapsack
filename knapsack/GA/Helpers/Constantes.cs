@@ -21,18 +21,18 @@ namespace knapsack.GA.Helpers
         /// <summary>
         /// Tem que ser multiplo de 2
         /// </summary>
-        public static int QuantidadeFilhosPorGeracao = 10;
+        public static int QuantidadeFilhosPorGeracao = 50;
 
-        public static int TamanhoPopulacao = 100;
+        public static int TamanhoPopulacao = 50;
 
-        public static bool ApenasPrimeiraInstancia = false;
+        public static bool ApenasPrimeiraInstancia = true;
 
         /// <summary>
         ///  Primeiro otimo foi com 10 000
         /// </summary>
-        public static int Geracoes = 20000;
+        public static int Geracoes = 10000;
 
-        public static int QuantidadeExecucoes = 30;
+        public static int QuantidadeExecucoes = 100;
 
         public static bool ImprimirIndividuo = false;
 
