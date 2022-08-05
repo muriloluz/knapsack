@@ -79,6 +79,8 @@ namespace knapsack.GA.Helpers
             }
 
             /// Tenta adicionar o máximo de itens disponíveis
+            
+
             mochila.CalcularRestricoesAtuais(infoItem);
 
             /// Sorteia Ordem Para Inclusao => Futuramente mudar para considerar custo/beneficio do item.

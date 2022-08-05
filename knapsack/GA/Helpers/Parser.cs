@@ -11,9 +11,9 @@ namespace knapsack.GA.Helpers
     {        
         public Problema LerProblema()
         {
-            var arquivo = File.ReadAllLines(@"C:\Projetos\ce\knapsack\knapsack\GA\Data\mknapcb1.txt");
+            ///var arquivo = File.ReadAllLines(@"C:\Projetos\ce\knapsack\knapsack\GA\Data\mknapcb1.txt");
 
-            ///var arquivo = File.ReadAllLines(@"G:\Projetos\ufg\EV\knapsack\knapsack\GA\Data\mknapcb3.txt"); 
+            var arquivo = File.ReadAllLines(@"G:\Projetos\ufg\EV\knapsack\knapsack\GA\Data\mknapcb1.txt"); 
 
             var problema = new Problema();
             var retorno = new List<EstrategiaAG>();

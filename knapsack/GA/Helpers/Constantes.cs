@@ -25,7 +25,7 @@ namespace knapsack.GA.Helpers
 
         public static int TamanhoPopulacao = 50;
 
-        public static bool ApenasPrimeiraInstancia = true;
+        public static bool ApenasPrimeiraInstancia = false;
 
         /// <summary>
         ///  Primeiro otimo foi com 10 000
